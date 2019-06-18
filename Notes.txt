@@ -1,0 +1,11 @@
+
+../libstdc++-v3/configure  \
+    --enable-cxx-flags='--fomit-frame-pointer -fno-exceptions -ffunction-sections' \
+    --target=m68k-elf \
+    --prefix=/opt/m68k-elf.haarer2/ \
+    --disable-hosted-libstdcxx \
+    --disable-libstdcxx-threads \
+    --disable-libstdcxx-pch\
+    --with-gxx-include-dir=/opt/m68k-elf.haarermod/include/c++/8.3.0
+
+

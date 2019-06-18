@@ -52,7 +52,7 @@ fi
 
 
 
-HOSTINSTALLPATH="/opt/crosschain"
+HOSTINSTALLPATH="/opt/m68k-elf.haarermod/"
 
 
 export PATH=$HOSTINSTALLPATH/bin:$PATH
@@ -147,7 +147,7 @@ function prepare_source () {
 #
 function install_package () {
     if [ $OS = "Debian" ] || [ $OS = "Fedora" ]; then
-        sudo sh -c "export PATH=$PATH:$HOSTINSTALLPATH/bin; make install"
+        sh -c "export PATH=$PATH:$HOSTINSTALLPATH/bin; make install"
     else
         make install
     fi
@@ -194,10 +194,7 @@ if [ "$OS" = "MINGW64_NT-10.0" ]; then
 	EXECUTEABLESUFFIX=".exe"
 	echo "ouuch.. on windows"
 else
-	echo "eeek.. not on windows, doing sudo keepalive tricks"
 	EXECUTEABLESUFFIX=""
-	sudo -v
-	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
 if [ ! -d cross-toolchain ]; then
@@ -247,7 +244,7 @@ if [ ! -d ../gmp ]; then
     cd cross-chain-$TARGETARCHITECTURE-obj
 fi
 
-GCCFLAGS+=" --target=$TARGETARCHITECTURE --prefix=$HOSTINSTALLPATH/ --enable-languages=c,c++ --disable-bootstrap --with-newlib --disable-libmudflap --disable-libssp --disable-libgomp --disable-libstdcxx-pch --disable-threads --with-gnu-as --with-gnu-ld --disable-nls --with-headers=yes --disable-checking --without-headers"
+GCCFLAGS+=" --target=$TARGETARCHITECTURE --prefix=$HOSTINSTALLPATH/ --enable-languages=c,c++ --disable-bootstrap --with-newlib --disable-libmudflap --enable-lto --disable-libssp --disable-libgomp --disable-threads --with-gnu-as --with-gnu-ld --disable-nls --with-headers=yes --disable-checking --without-headers"
 
 conf_compile_source gcc "$HOSTINSTALLPATH/bin/$TARGETARCHITECTURE-gcov$EXECUTEABLESUFFIX" "$GCCFLAGS"
 
